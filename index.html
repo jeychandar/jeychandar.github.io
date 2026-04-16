@@ -1,451 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jey Chandar | Robotics & 3D Perception Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0b0e14;
-    --bg2: #131720;
-    --bg3: #1a2030;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8eaf0;
-    --text2: #8a91a8;
-    --text3: #555f78;
-    --accent: #4af0b8;
-    --accent2: #1de9b6;
-    --accent-dim: rgba(74,240,184,0.1);
-    --accent-dim2: rgba(74,240,184,0.06);
-    --blue: #4a9eff;
-    --blue-dim: rgba(74,158,255,0.1);
-    --purple: #b57bee;
-    --purple-dim: rgba(181,123,238,0.1);
-    --amber: #f0b24a;
-    --amber-dim: rgba(240,178,74,0.1);
-    --red: #f05a4a;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    font-size: 15px;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(74,240,184,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(74,240,184,0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: rgba(11,14,20,0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 3rem;
-    height: 56px;
-  }
-  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 0.05em; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; font-family: 'DM Mono', monospace; }
-  .nav-links a:hover { color: var(--accent); }
-  .hero {
-    position: relative;
-    min-height: auto;
-    display: flex;
-    align-items: flex-start;
-    padding: 120px 3rem 10px;
-    overflow: hidden;
-    z-index: 1;
-  }
-  .hero-glow { position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(74,240,184,0.08) 0%, transparent 70%); pointer-events: none; }
-  .hero-glow2 { position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(74,158,255,0.06) 0%, transparent 70%); pointer-events: none; }
-  .hero-inner { max-width: 900px; margin: 0 auto; width: 100%; }
-  .hero-label {
-    font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.15em;
-    text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;
-    opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
-  }
-  .hero-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.8rem, 6vw, 5.5rem);
-    line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1rem;
-    opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
-  }
-  .hero-name em { font-style: italic; color: var(--accent); }
-  .hero-title { font-size: 16px; color: var(--text2); font-weight: 300; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; letter-spacing: 0.02em; }
-  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
-  .htag { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 12px; border: 1px solid var(--border2); border-radius: 3px; color: var(--text2); letter-spacing: 0.06em; background: var(--bg2); transition: all 0.2s; }
-  .htag:hover { border-color: var(--accent); color: var(--accent); }
-  .hero-contact { display: flex; gap: 1.5rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
-  .hcontact { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 6px; text-decoration: none; transition: color 0.2s; }
-  .hcontact:hover { color: var(--accent); }
-  .hcontact .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-  .hero-metrics { display: flex; gap: 0; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
-  .hmetric { flex: 1; padding: 1.2rem 1.5rem; border-right: 1px solid var(--border); background: var(--bg2); }
-  .hmetric:last-child { border-right: none; }
-  .hmetric-val { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--accent); line-height: 1; margin-bottom: 4px; }
-  .hmetric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'DM Mono', monospace; }
-  section { position: relative; z-index: 1; padding: 40px 3rem; max-width: 1100px; margin: 0 auto; }
-  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem; }
-  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); opacity: 0.6; }
-  .section-title { font-family: 'DM Serif Display', serif; font-size: 2rem; letter-spacing: -0.02em; }
-  .section-line { flex: 1; height: 1px; background: var(--border); }
-  .edu-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.75rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-  .edu-degree { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 6px; }
-  .edu-school { font-size: 14px; color: var(--text2); font-weight: 300; }
-  .edu-year { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); white-space: nowrap; }
-  .exp-item { display: grid; grid-template-columns: 1fr 3fr; gap: 2rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
-  .exp-item:last-child { border-bottom: none; }
-  .exp-meta { padding-top: 4px; }
-  .exp-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 8px; }
-  .exp-company { font-size: 13px; color: var(--text2); font-weight: 300; line-height: 1.5; }
-  .exp-loc { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-top: 6px; }
-  .exp-role { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
-  .exp-summary { font-size: 14px; color: var(--text2); margin-bottom: 1rem; font-weight: 300; }
-  .exp-projects { display: flex; flex-direction: column; gap: 10px; }
-  .exp-proj { padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 2px; font-size: 13px; color: var(--text2); line-height: 1.6; }
-  .exp-proj strong { color: var(--text); font-weight: 500; }
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .proj-card { background: var(--bg); padding: 1.75rem; transition: background 0.2s; position: relative; overflow: hidden; }
-  .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.2s; }
-  .proj-card:hover { background: var(--bg2); }
-  .proj-card.accent::before { background: var(--accent); }
-  .proj-card.blue::before { background: var(--blue); }
-  .proj-card.purple::before { background: var(--purple); }
-  .proj-card.amber::before { background: var(--amber); }
-  .proj-cat { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-  .proj-cat.accent { color: var(--accent); }
-  .proj-cat.blue { color: var(--blue); }
-  .proj-cat.purple { color: var(--purple); }
-  .proj-cat.amber { color: var(--amber); }
-  .proj-name { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 10px; letter-spacing: -0.01em; }
-  .proj-desc { font-size: 13px; color: var(--text2); font-weight: 300; line-height: 1.7; margin-bottom: 1rem; }
-  .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .ptag { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; border: 1px solid var(--border2); color: var(--text3); border-radius: 2px; }
-  .skills-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-  .skill-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; transition: border-color 0.2s; }
-  .skill-card:hover { border-color: var(--border2); }
-  .skill-icon { width: 36px; height: 36px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 1rem; }
-  .skill-icon.teal { background: var(--accent-dim2); }
-  .skill-icon.blue { background: var(--blue-dim); }
-  .skill-icon.purple { background: var(--purple-dim); }
-  .skill-icon.amber { background: var(--amber-dim); }
-  .skill-cat-name { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--text); }
-  .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
-  .skill-pill { font-size: 12px; padding: 3px 9px; background: var(--bg3); color: var(--text2); border-radius: 2px; border: 1px solid var(--border); font-family: 'DM Mono', monospace; }
-  .pub-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; position: relative; overflow: hidden; }
-  .pub-card::after { content: '"'; position: absolute; right: 2rem; top: -1rem; font-family: 'DM Serif Display', serif; font-size: 8rem; color: var(--accent); opacity: 0.06; line-height: 1; }
-  .pub-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; line-height: 1.5; margin-bottom: 1rem; max-width: 680px; }
-  .pub-authors { font-size: 13px; color: var(--text2); margin-bottom: 0.75rem; font-weight: 300; }
-  .pub-venue { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); border: 1px solid rgba(74,240,184,0.3); padding: 4px 12px; border-radius: 2px; letter-spacing: 0.08em; }
-  .certs-row { display: flex; flex-wrap: wrap; gap: 10px; }
-  .cert-chip { font-family: 'DM Mono', monospace; font-size: 12px; padding: 8px 16px; border: 1px solid var(--border2); border-radius: 2px; color: var(--text2); background: var(--bg2); }
-  footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-  .footer-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--accent); }
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
-  @media (max-width: 700px) {
-    nav { padding: 0 1.5rem; }
-    .nav-links { gap: 1rem; }
-    .hero { padding: 100px 1.5rem 60px; }
-    section { padding: 60px 1.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
-    .hero-metrics { flex-direction: column; }
-    .hmetric { border-right: none; border-bottom: 1px solid var(--border); }
-    .hmetric:last-child { border-bottom: none; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Robotics & 3D Perception Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --bg2: #131720;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --text: #e8eaf0;
+      --text2: #8a91a8;
+      --text3: #555f78;
+      --accent: #4af0b8;
+      --blue: #4a9eff;
+      --purple: #b57bee;
+      --amber: #f0b24a;
+    }
+
+    /* Base Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+      overflow-x: hidden;
+      /* Handles iPhone home indicator/notch areas */
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Grid Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(74,240,184,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(74,240,184,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Navigation - Responsive */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(11,14,20,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 56px;
+    }
+
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.05em; font-weight: 500; }
+    .nav-links { display: flex; gap: 1.2rem; list-style: none; }
+    .nav-links a { font-size: 11px; color: var(--text2); text-decoration: none; font-family: 'DM Mono', monospace; transition: color 0.2s; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero Section - Reduced gaps */
+    .hero {
+      position: relative;
+      padding: 100px 5% 10px;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .hero-inner { max-width: 900px; margin: 0 auto; width: 100%; }
+    .hero-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .hero-title { font-size: 18px; color: var(--text2); margin-bottom: 0; max-width: 650px; font-weight: 300; line-height: 1.5; }
+
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 25px 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: 1.8rem; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── METRICS ─── Small & Compact */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .metric-card {
+      background: var(--bg2);
+      padding: 0.7rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+    }
+
+    /* ─── PROJECTS ─── Optimized for Touch */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .proj-card {
+      background: var(--bg);
+      padding: 1.5rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proj-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .proj-card.accent::before { background: var(--accent); }
+    .proj-card.blue::before   { background: var(--blue); }
+    .proj-card.purple::before { background: var(--purple); }
+
+    .proj-cat { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; margin-bottom: 6px; color: var(--text3); }
+    .proj-name { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 8px; }
+    .proj-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 1rem; }
+
+    .proj-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--bg2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+
+    .proj-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+    .ptag { font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 6px; border: 1px solid var(--border2); color: var(--text3); border-radius: 2px; }
+
+    /* ─── RESEARCH ─── */
+    .pub-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+
+    .pub-title { font-family: 'DM Serif Display', serif; font-size: 1rem; line-height: 1.4; margin-bottom: 0.5rem; }
+    .pub-authors { font-size: 12px; color: var(--text2); margin-bottom: 0.8rem; }
+    .pub-venue {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      border: 1px solid rgba(74,240,184,0.3);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    footer {
+      padding: 3rem 5%;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    /* ─── RESPONSIVE BREAKPOINTS ─── */
+
+    /* For Tablets/Large Phones */
+    @media (max-width: 900px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* For Mobile Devices (iPhone) */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-logo { font-size: 10px; }
+      
+      .hero { padding-top: 85px; }
+      .hero-title { font-size: 16px; }
+      
+      .section-title { font-size: 1.5rem; }
+      
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .metric-val { font-size: 1.4rem; }
+      
+      .proj-card { padding: 1.2rem; }
+    }
+    
+    /* Small Phone Fix (e.g., iPhone SE) */
+    @media (max-width: 350px) {
+      .nav-links { gap: 0.5rem; }
+      .nav-links a { font-size: 9px; }
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
- 
-<nav>
-  <div class="nav-logo">Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="#education">Education</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#publications">Research</a></li>
-  </ul>
-</nav>
- 
-<div class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
-  <div class="hero-inner">
-    <div class="hero-label">Robotics &amp; 3D Perception Engineer</div>
-    <h1 class="hero-name">Jey Chandar<br><em>Kannivadi Ramkanth</em></h1>
-    <p class="hero-title">Autonomous Navigation · LiDAR Perception · Reinforcement Learning · Sensor Fusion</p>
-    <div class="hero-tags">
-      <span class="htag">ROS1 / ROS2</span>
-      <span class="htag">SLAM . Navigation . Mapping</span>
-      <span class="htag">Computer Vision</span>
-      <span class="htag">Point Cloud Processing</span>
-      <span class="htag">Deep Reinforcement Learning</span>
-      <span class="htag">PX4 / MAVROS</span>
-      <span class="htag">NVIDIA Jetson</span>
-      <span class="htag">Python · C++</span>
-      <span class="htag">MQTT</span>
-      <span class="htag">Natural Language Processing</span>
-    </div>
-    <div class="hero-contact">
-      <a class="hcontact" href="mailto:jeychandar@gmail.com"><span class="dot"></span>jeychandar[at]gmail.com</a>
-      <span class="hcontact"><span class="dot"></span>Singapore</span>
-    </div>
-    <div class="hero-metrics">
-      <div class="hmetric"><div class="hmetric-val">4+</div><div class="hmetric-label">Years experience</div></div>
-      <div class="hmetric"><div class="hmetric-val">10+</div><div class="hmetric-label">Industrial AI projects</div></div>
-      <div class="hmetric"><div class="hmetric-val">6+</div><div class="hmetric-label">Platforms deployed</div></div>
-      <div class="hmetric"><div class="hmetric-val">1</div><div class="hmetric-label">ASCE publication</div></div>
+
+  <nav>
+    <div class="nav-logo">PORTFOLIO</div>
+    <ul class="nav-links">
+      <li><a href="#stats">Stats</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#research">Research</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-label">Robotics &amp; 3D Perception Engineer</div>
+      <p class="hero-title">Specializing in Computer Vision, Autonomous Navigation, LiDAR Perception, SLAM, and Reinforcement Learning for industrial and research applications.</p>
     </div>
   </div>
-</div>
- 
-<!-- EDUCATION -->
-<section id="education">
-  <div class="section-header reveal">
-    <span class="section-num">01</span>
-    <h2 class="section-title">Education</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="edu-card reveal">
-    <div>
-      <div class="edu-degree">B.E. Mechatronics - First Class</div>
-      <div class="edu-school">Anna University · K.S. Rangasamy College of Technology, Tamil Nadu, India</div>
-    </div>
-    <div class="edu-year">2016 — 2020</div>
-  </div>
-</section>
- 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-header reveal">
-    <span class="section-num">02</span>
-    <h2 class="section-title">Experience</h2>
-    <div class="section-line"></div>
-  </div>
- 
-  <div class="exp-item reveal">
-    <div class="exp-meta">
-      <div class="exp-date">Jan 2025 - Present</div>
-      <div class="exp-company">National University of Singapore</div>
-      <div class="exp-loc">📍 Singapore</div>
-    </div>
-    <div class="exp-body">
-      <div class="exp-role">Research Assistant / Engineer</div>
-      <div class="exp-summary">Focused on advanced navigation stacks for complex, GPS-denied environments - pushing the boundaries of semantic and RL-driven autonomous systems.</div>
-      <div class="exp-projects">
-        <div class="exp-proj"><strong>Semantic-Aware Navigation (ROS1) -</strong> Developed a dynamic costmap weighting mechanism driven by a semantic layer using single-LiDAR perception. One of the earliest implementations for human-aware navigation safety in construction environments.</div>
-        <div class="exp-proj"><strong>Reinforcement Learning Navigation (ROS2) -</strong> Built a hybrid navigation model in Gazebo, enabling reliable autonomous navigation and dynamic obstacle avoidance for UGV robots in complex simulated environments. Furthermore built obstacle avoidance model in Isaac Sim for legged/quadruped robots.</div>
+
+  <section id="stats">
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-val">4+</div>
+        <div class="metric-label">Experience (Years)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">10+</div>
+        <div class="metric-label">Industry Projects</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">6+</div>
+        <div class="metric-label">Platforms Deployed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">1</div>
+        <div class="metric-label">Publication</div>
       </div>
     </div>
-  </div>
- 
-  <div class="exp-item reveal">
-    <div class="exp-meta">
-      <div class="exp-date">Dec 2022 - Dec 2024</div>
-      <div class="exp-company">Aruvii Pte Ltd</div>
-      <div class="exp-loc">📍 Singapore / India</div>
+  </section>
+
+  <section id="projects">
+    <div class="section-header">
+      <h2 class="section-title">Key Projects</h2>
+      <div class="section-line"></div>
     </div>
-    <div class="exp-body">
-      <div class="exp-role">Data Scientist - Computer Vision &amp; Robotics</div>
-      <div class="exp-summary">Led deployment of the FAST3DIS Platform - an intelligent 3D sensing and autonomy suite deployed across drones, robodogs, and ground rovers.</div>
-      <div class="exp-projects">
-        <div class="exp-proj"><strong>Sensor Fusion &amp; Mapping -</strong> Developed an extrinsic matrix to merge LiDAR + RGB camera data into colourized point clouds. Deployed real-time mapping and laser scanning on a robodog using Ouster sensors with Xavier-NX edge compute.</div>
-        <div class="exp-proj"><strong>Autonomous Ground Rover -</strong> Full autonomy stack using PX4 (Pixhawk), MAVROS, and MAVLink with RTK GPS for precision positioning. Ground station communication via QGroundControl.</div>
-        <div class="exp-proj"><strong>Drone Detection -</strong> Detection system using Blickfeld LiDAR + GPS with dynamic range reconfiguration via GUI. Drone catching via TCP with leader drones detecting intruder drones.</div>
-        <div class="exp-proj"><strong>3D Pallet Recognition -</strong> PCD-to-image pipeline to train detection models with full 2D-to-3D one-to-one mapping using Livox sensor.</div>
+
+    <div class="projects-grid">
+      <div class="proj-card accent">
+        <div class="proj-cat" style="color: var(--accent);">Research · NUS</div>
+        <h3 class="proj-name">Semantic Aware Navigation</h3>
+        <p class="proj-desc">Dynamic costmap weighting mechanism driven by a semantic layer using single-LiDAR perception.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/semantic_aware_navigation.gif" alt="Semantic Navigation Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">ROS</span><span class="ptag">Semantic Layer</span><span class="ptag">Costmap</span>
+        </div>
+      </div>
+
+      <div class="proj-card accent">
+        <div class="proj-cat" style="color: var(--accent);">Research · NUS</div>
+        <h3 class="proj-name">Reinforcement Learning</h3>
+        <p class="proj-desc">Hybrid RL approach for obstacle avoidance on legged/quadruped robots in complex terrains.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/RL.gif" alt="RL Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">ROS2</span><span class="ptag">Isaac Sim</span><span class="ptag">Gymnasium</span>
+        </div>
+      </div>
+
+      <div class="proj-card blue">
+        <div class="proj-cat" style="color: var(--blue);">Industry · Aruvii</div>
+        <h3 class="proj-name">Robodog Mapping &amp; SLAM</h3>
+        <p class="proj-desc">Real-time edge deployment SLAM mapping on a robodog using Jetson Xavier-NX hardware.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/robodog_SLAM_mapping.gif" alt="SLAM Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">SLAM</span><span class="ptag">LiDAR</span><span class="ptag">Xavier-NX</span>
+        </div>
+      </div>
+
+      <div class="proj-card blue">
+        <div class="proj-cat" style="color: var(--blue);">Industry · Aruvii</div>
+        <h3 class="proj-name">Ground Rover Autonomy</h3>
+        <p class="proj-desc">Autonomous stack using PX4, MAVROS, and RTK GPS for high-precision navigation.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/autonomous_navigation_px4.gif" alt="Rover Autonomy Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">PX4</span><span class="ptag">MAVROS</span><span class="ptag">RTK GPS</span>
+        </div>
+      </div>
+
+      <div class="proj-card purple">
+        <div class="proj-cat" style="color: var(--purple);">Industry · Aruvii</div>
+        <h3 class="proj-name">3D Pallet Recognition</h3>
+        <p class="proj-desc">PCD-to-image pipeline for pallet recognition with specialized 2D-to-3D mapping.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/palette.gif" alt="Pallet Recognition Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">PCD</span><span class="ptag">RViz</span><span class="ptag">Perception</span>
+        </div>
+      </div>
+
+      <div class="proj-card purple">
+        <div class="proj-cat" style="color: var(--purple);">Industry · Aruvii</div>
+        <h3 class="proj-name">Multi-Sensor Fusion</h3>
+        <p class="proj-desc">Fusing LiDAR and RGB camera data to generate high-fidelity coloured pointclouds.</p>
+        <div class="proj-video">
+          <img src="https://raw.githubusercontent.com/jeychandar/jeychandar.github.io/main/MSF.gif" alt="Fusion Demo">
+        </div>
+        <div class="proj-tags">
+          <span class="ptag">Sensor Fusion</span><span class="ptag">Calibration</span>
+        </div>
       </div>
     </div>
-  </div>
- 
-  <div class="exp-item reveal">
-    <div class="exp-meta">
-      <div class="exp-date">Sept 2021 — Oct 2022</div>
-      <div class="exp-company">iKomet Technology Solutions</div>
-      <div class="exp-loc">📍 Chennai, India</div>
+  </section>
+
+  <section id="research">
+    <div class="section-header">
+      <h2 class="section-title">Research</h2>
+      <div class="section-line"></div>
     </div>
-    <div class="exp-body">
-      <div class="exp-role">Software Engineer - Data Science</div>
-      <div class="exp-summary">Built and deployed an AI-powered copy editing platform covering the full NLP pipeline for document structure analysis and automated annotation.</div>
-      <div class="exp-projects">
-        <div class="exp-proj"><strong>Text Classification &amp; Tokenization -</strong> Developed models for Frontmatter, Reference, and Character style classification. Custom tokenizers for designators, punctuation, and numbers.</div>
-        <div class="exp-proj"><strong>Abbreviation Detection -</strong> Longform/shortform detection, plus business rules for edge cases.</div>
-        <div class="exp-proj"><strong>API Deployment -</strong> Flask-based REST APIs for seamless integration. Used machine learning library for structured extraction and open source tool for annotation workflows.</div>
-      </div>
+    <div class="pub-card">
+      <div class="pub-title">"Semantic-aware robot navigation for autonomous mobile scanning in cluttered construction environments."</div>
+      <div class="pub-authors">J Kannivadi Ramkanth, VJL Gan, and R Rambabu</div>
+      <div class="pub-venue">✦ ASCE · Accepted</div>
     </div>
-  </div>
-</section>
- 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-header reveal">
-    <span class="section-num">03</span>
-    <h2 class="section-title">Key Projects</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="projects-grid reveal">
-    <div class="proj-card accent">
-      <div class="proj-cat accent">Research · NUS</div>
-      <div class="proj-name">Navigation &amp; RL Platform</div>
-      <div class="proj-desc">Semantic-aware costmap navigation (ROS1) and deep reinforcement learning for dynamic obstacle avoidance in complex simulation environments (ROS2).</div>
-      <div class="proj-tags"><span class="ptag">ROS1</span><span class="ptag">ROS2</span><span class="ptag">Reinforcement Learning</span><span class="ptag">Gazebo . Isaac Sim</span></div>
-    </div>
-    <div class="proj-card blue">
-      <div class="proj-cat blue">Industry · Aruvii</div>
-      <div class="proj-name">Drone Detection System</div>
-      <div class="proj-desc">LiDAR + GPS-based drone detection using Blickfeld sensor with adjustable detection range via GUI. Drone catching with leader-intruder logic over TCP.</div>
-      <div class="proj-tags"><span class="ptag">Blickfeld LiDAR</span><span class="ptag">GPS</span><span class="ptag">TCP Control</span></div>
-    </div>
-    <div class="proj-card accent">
-      <div class="proj-cat accent">Industry · Aruvii</div>
-      <div class="proj-name">FAST3DIS Ground Rover</div>
-      <div class="proj-desc">Fully autonomous ground rover with PX4 + MAVROS + MAVLink offboard control, RTK GPS positioning, and SLAM mapping.</div>
-      <div class="proj-tags"><span class="ptag">PX4 Pixhawk</span><span class="ptag">MAVROS</span><span class="ptag">RTK GPS</span><span class="ptag">QGroundControl</span></div>
-    </div>
-    <div class="proj-card blue">
-      <div class="proj-cat blue">Industry · Aruvii</div>
-      <div class="proj-name">Robodog Mapping &amp; Scanning</div>
-      <div class="proj-desc">Real-time SLAM-based mapping and laser scanning on a robodog platform using Ouster sensors. Master-slave LiDAR connection with Xavier-NX edge compute for bi-directional data flow.</div>
-      <div class="proj-tags"><span class="ptag">SLAM</span><span class="ptag">Ouster</span><span class="ptag">Xavier-NX</span><span class="ptag">Edge Deploy</span></div>
-    </div>
-    <div class="proj-card purple">
-      <div class="proj-cat purple">Industry · Aruvii</div>
-      <div class="proj-name">3D Pallet Recognition</div>
-      <div class="proj-desc">PCD-to-image transformation 2D-to-3D one-to-one mapping pipeline for training pallet detection.</div>
-      <div class="proj-tags"><span class="ptag">LiDAR PCD</span><span class="ptag">Livox</span><span class="ptag">RViz</span></div>
-    </div>
-    <div class="proj-card amber">
-      <div class="proj-cat amber">Undergraduate</div>
-      <div class="proj-name">Android OCR &amp; Scan-to-Call</div>
-      <div class="proj-desc">Android application using SDK-based OCR to extract text from images, identify phone numbers, and initiate direct calls from scanned content.</div>
-      <div class="proj-tags"><span class="ptag">Android SDK</span><span class="ptag">OCR</span><span class="ptag">XML</span><span class="ptag">PHP</span></div>
-    </div>
-  </div>
-</section>
- 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-header reveal">
-    <span class="section-num">04</span>
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="skills-layout reveal">
-    <div class="skill-card">
-      <div class="skill-icon teal">🤖</div>
-      <div class="skill-cat-name">Robotics Frameworks</div>
-      <div class="skill-pills">
-        <span class="skill-pill">ROS1 Noetic</span><span class="skill-pill">ROS2 Jazzy</span><span class="skill-pill">Navigation Stack</span><span class="skill-pill">MAVROS</span><span class="skill-pill">MAVLink</span><span class="skill-pill">PX4 Pixhawk</span><span class="skill-pill">QGroundControl</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon blue">👁</div>
-      <div class="skill-cat-name">Perception &amp; Computer Vision</div>
-      <div class="skill-pills">
-        <span class="skill-pill">LiDAR Sensor Fusion</span><span class="skill-pill">SLAM</span><span class="skill-pill">Object Detection</span><span class="skill-pill">Semantic Segmentation</span><span class="skill-pill">Point Cloud Processing</span><span class="skill-pill">Open Vocabulary Models</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon purple">🧠</div>
-      <div class="skill-cat-name">AI &amp; Algorithms</div>
-      <div class="skill-pills">
-        <span class="skill-pill">RL</span><span class="skill-pill">CNN</span><span class="skill-pill">TensorFlow</span><span class="skill-pill">PyTorch</span><span class="skill-pill">Deep Learning</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon amber">⚡</div>
-      <div class="skill-cat-name">Hardware &amp; Edge Compute</div>
-      <div class="skill-pills">
-        <span class="skill-pill">NVIDIA Jetson</span><span class="skill-pill">Xavier-NX</span><span class="skill-pill">Raspberry Pi</span><span class="skill-pill">RTK GPS</span><span class="skill-pill">LiDAR</span><span class="skill-pill">Thermal / IR / RGB Cameras</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon teal">💻</div>
-      <div class="skill-cat-name">Languages &amp; Tools</div>
-      <div class="skill-pills">
-        <span class="skill-pill">Python</span><span class="skill-pill">C++</span><span class="skill-pill">Linux</span><span class="skill-pill">Gazebo</span><span class="skill-pill">Isaac Sim</span><span class="skill-pill">MQTT</span><span class="skill-pill">Cloud Compare</span><span class="skill-pill">REST APIs</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon blue">📝</div>
-      <div class="skill-cat-name">NLP &amp; Data</div>
-      <div class="skill-pills">
-        <span class="skill-pill">Spacy</span><span class="skill-pill">Doccano</span><span class="skill-pill">Grobid</span><span class="skill-pill">Schwartz-Hearst</span><span class="skill-pill">Regex</span><span class="skill-pill">Flask API</span><span class="skill-pill">Roboflow</span><span class="skill-pill">Matplotlib</span>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- PUBLICATIONS -->
-<section id="publications">
-  <div class="section-header reveal">
-    <span class="section-num">05</span>
-    <h2 class="section-title">Research &amp; Publications</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="pub-card reveal">
-    <div class="pub-title">"Semantic-aware robot navigation for autonomous mobile scanning in cluttered, GPS-denied construction environments."</div>
-    <div class="pub-authors">J Kannivadi Ramkanth, VJL Gan, and R Rambabu</div>
-    <div class="pub-venue">✦ ASCE &nbsp;·&nbsp; Accepted</div>
-  </div>
-  <div style="margin-top: 2.5rem;" class="reveal">
-    <div style="font-size: 12px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem;">Certifications</div>
-    <div class="certs-row">
-      <span class="cert-chip">Data Science — Besant Technologies</span>
-      <span class="cert-chip">Big Data Analysis 101 — CADS AI</span>
-      <span class="cert-chip">Generative AI with LLM — Coursera</span>
-    </div>
-  </div>
-  <div style="margin-top: 2.5rem;" class="reveal">
-    <div style="font-size: 12px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem;">Languages</div>
-    <div class="certs-row">
-      <span class="cert-chip">English — Fluent</span>
-      <span class="cert-chip">Tamil — Native</span>
-      <span class="cert-chip">Sourashtra — Native</span>
-      <span class="cert-chip">Hindi — Fluent</span>
-    </div>
-  </div>
-</section>
- 
-<footer>
-  <div class="footer-name">©Jey Chandar Kannivadi Ramkanth</div>
-  <div class="footer-links">
-    <a href="mailto:jeychandar@gmail.com">jeychandar[at]gmail.com</a>
-  </div>
-</footer>
- 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+  </section>
+
+  <footer>
+    © Jey Chandar Kannivadi Ramkanth · <a href="mailto:jeychandar@gmail.com" style="color: var(--text3); text-decoration: none;">jeychandar[at]gmail.com</a>
+  </footer>
+
 </body>
 </html>
